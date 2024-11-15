@@ -1,5 +1,6 @@
 # Brute force SSH
 # A target user name and  wordlist are required. 
+# ssh username@ipaddress
 import paramiko
 import sys
 import os
