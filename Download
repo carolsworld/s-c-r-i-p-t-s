@@ -1,0 +1,8 @@
+# Download file 
+# Other options, use Wget in Linux or Certutil or PSexec in Windows
+
+import requests
+
+url = 'https://xxx.com/xxx/xxx.png' # Change this
+r = requests.get(url, allow_redirects=True)
+open('xxx.png', 'wb').write(r.content) # Change this
