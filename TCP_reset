@@ -9,6 +9,7 @@ tcp = TCP(sport=23, dport=57438, seq=167800952, flags="R") # source port is 23, 
 # Construct the RST packet
 pkt = ip/tcp
 
+# Display the packet structure for debugging
 ls(pkt)
 
 # Send the packet
