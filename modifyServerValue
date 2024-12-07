@@ -1,0 +1,27 @@
+# To be tested
+
+from opcua import Client
+import time
+
+# Connect to the OPC UA server
+client = Client("opc.tcp://IP_ADDRESS:4840")  # Replace with the server's address
+
+try:
+    # Connect to the server
+    client.connect()
+
+    # Access a node (e.g., a variable) on the server
+    node = client.get_node("ns=2;i=2")  # Replace with your node's namespace and ID
+    print("Current value:", node.get_value())
+
+    # Send legitimate updates to the node
+    node.set_value(100)  # Example of setting a new value
+    print("Updated value to 100")
+
+    # Send malformed or extreme values to test server behavior
+    node.set_value(999999999)  # Test with an extremely large value
+    time.sleep(1)
+
+finally:
+    # Disconnect from the server
+    client.disconnect()
