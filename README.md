@@ -1,6 +1,6 @@
 # scripts
 
-A repository of lazy workers
+A repository for lazy workers
 
 Python Scripts
 
