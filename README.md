@@ -1,8 +1,9 @@
 # scripts
-A repository of 
+
+A repository of lazy workers
 
 Python Scripts
 
 C Scripts
 
-for preparing lab sessions
+for preparing lab sessions, education and research
